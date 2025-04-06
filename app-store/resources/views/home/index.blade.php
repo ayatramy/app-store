@@ -67,68 +67,21 @@
       ================================================== -->
     <!-- Wrap the rest of the page in another container to center all the content. -->
 
-    <div class="container mt-5">
-        <h2 class="text-center mb-4">قائمة المنتجات</h2>
-
-        <div class="mb-3">
-            <label for="categoryFilter" class="form-label">اختر الصنف:</label>
-            <select id="categoryFilter" class="form-select">
-                <option value="">جميع الأصناف</option>
-                @foreach($categories as $category)
-                    <option value="{{ $category->id }}">{{ $category->name }}</option>
-                @endforeach
-            </select>
-        </div>
-
-        <div id="productsList" class="row">
-            @foreach($products as $product)
-                <div class="col-md-4 product-item">
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $product->name }}</h5>
-                        </div>
-                    </div>
-                </div>
+      <!-- اختيار الصنف من كومبو بوكس -->
+      <h2 class="text-center mb-4 text-danger">قائمة المنتجات</h2>
+      <form action="{{ url('/') }}" method="GET" class="mb-5">
+        <select name="category_id" onchange="this.form.submit()" class="form-select" row="10">
+            <option value="">All Categories</option>
+            @foreach($categories as $category)
+                <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
+                    {{ $category->name }}
+                </option>
             @endforeach
-        </div>
-    </div>
-
-    <script>
-        $(document).ready(function() {
-            $('#categoryFilter').change(function() {
-                let categoryId = $(this).val();
-                $.ajax({
-                    url: "{{ route('products.filter') }}",
-                    type: "GET",
-                    data: { category_id: categoryId },
-                    success: function(response) {
-                        let productList = $('#productsList');
-                        productList.empty();
-                        if (response.length > 0) {
-                            response.forEach(product => {
-                                productList.append(`
-                                    <div class="col-md-4 product-item">
-                                        <div class="card mb-3">
-                                            <div class="card-body">
-                                                <h5 class="card-title">${product.name}</h5>
-                                            </div>
-                                        </div>
-                                    </div>
-                                `);
-                            });
-                        } else {
-                            productList.append('<p class="text-center">لا توجد منتجات متاحة</p>');
-                        }
-                    }
-                });
-            });
-        });
-    </script>
+        </select>
+    </form>
 
 
-
-
-    <div class="container marketing">
+    <div class="container marketing mb-5">
 
         <!-- Three columns of text below the carousel -->
         <div class="row mb-3">

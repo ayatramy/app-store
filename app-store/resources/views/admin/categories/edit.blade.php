@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('content')
 <div class="py-3">
-    <form action="{{url('categories/update/'.$category->id)}}" method="POST">
+    <form action="{{route('category_update',$category->id)}}" method="POST">
         @csrf
         @method('patch')
         {{-- @foreach ($products as $product) --}}

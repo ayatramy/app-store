@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Category;
+use App\Models\Admin\Category;
 
 class CategoryController extends Controller
 {
@@ -33,7 +33,9 @@ class CategoryController extends Controller
 
         $category->name = $request->name;
         $category->save();
-        return redirect('categories');
+        return redirect()->route('categories.index');
+
+        // return redirect('categories');
     }
 
     public function destroy($id){

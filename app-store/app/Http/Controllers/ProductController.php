@@ -3,19 +3,28 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Category;
-use App\Models\Product;
+use App\Models\Admin\Category;
+use App\Models\Admin\Product;
+use Illuminate\Support\Facades\Auth;
+
 
 class ProductController extends Controller
 {
+
+    public function __construct(){
+        $this->middleware('auth');
+    }
+
+
     public function index()
     {
-        $products = Product::all();
+        // $products = Product::where('user_id', auth()->id())->get();
+        $products = Product::where('user_id', Auth::id())->orderBy('created_at','desc')->paginate(5);
+        // $products = Product::paginate(5);
         $categories = Category::all();
         return view('admin.products.index',compact('products','categories'));
         // $products = DB::table('products')->get();
         // return view('admin.products.index', compact('products'));
-
     }
 
     // public function getCreate(){
@@ -47,6 +56,7 @@ class ProductController extends Controller
     public function store(Request $request){
         $product = new Product;
 
+        $product->user_id = auth()->id();
         $product->name = $request->name;
         $product->quantity = $request->quantity;
         $product->price = $request->price;
@@ -69,6 +79,10 @@ class ProductController extends Controller
         $product = Product::find($id);
         $categories = Category::all();
         $category_name = Category::find($product->category_id);
+        if ($product->user_id !== auth()->id()) {
+            abort(403); // ممنوع توصل لمنتج مش تبعك
+        }
+
         // $category_name = Category::where('id',$product->category_id)->first();
         return view('admin.products.edit',compact('product','categories','category_name'));
         // $product = DB::table('products')->where('id', $id)->first();
@@ -85,9 +99,15 @@ class ProductController extends Controller
         $product->price = $request->price;
         $product->description = $request->description;
         $product->category_id = $request->category_id;
+        if ($product->user_id !== auth()->id()) {
+            abort(403); // ممنوع توصل لمنتج مش تبعك
+        }
+
 
         $product->save();
-        return redirect('products');
+        return redirect()->route('products.index');
+
+        // return redirect('products');
         // $id = $_POST['id'];
         // DB::table('products')->where('id',$id)->update([
         //     'name' => $_POST['name'],

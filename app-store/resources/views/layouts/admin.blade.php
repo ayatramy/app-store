@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.122.0">
-    <title>قالب لوحة القيادة · Bootstrap v5.3</title>
+    <title>online store</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/dashboard-rtl/">
 
@@ -283,7 +283,7 @@
                         <ul class="nav flex-column">
                             <li class="nav-item">
                                 <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page"
-                                    href="#">
+                                    href="{{url('/')}}">
                                     {{-- <svg class="bi"><use xlink:href="#house-fill"/></svg> --}}
                                     <svg class="bi" width="16" height="16">
                                         <use xlink:href="#house-fill"></use>
@@ -292,7 +292,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link d-flex align-items-center gap-2" href="{{url('categories/')}}">
+                                <a class="nav-link d-flex align-items-center gap-2" href="{{route('categories.index')}}">
                                     <svg class="bi" width="16" height="16">
                                         <use xlink:href="#cart" />
                                     </svg>
@@ -300,7 +300,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link d-flex align-items-center gap-2" href="{{url('products/')}}">
+                                <a class="nav-link d-flex align-items-center gap-2" href="{{route('products.index')}}">
                                     <svg class="bi" width="16" height="16">
                                         <use xlink:href="#file" />
                                     </svg>
